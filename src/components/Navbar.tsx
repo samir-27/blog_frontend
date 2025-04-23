@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const links = ["Home", "Posts", "Contact"];
+  const links = ["Home", "blogs", "create"];
 
   return (
     <nav className="bg-gray-900 text-white w-full fixed top-0 left-0 z-50 shadow ">
@@ -13,9 +14,9 @@ export default function Navbar() {
 
         <div className="hidden md:flex space-x-6">
           {links.map((link) => (
-            <a key={link} href={`#${link.toLowerCase()}`} className="hover:text-gray-300">
+            <Link to={`/${link}`} className="hover:text-gray-300">
               {link}
-            </a>
+            </Link>
           ))}
         </div>
 

@@ -34,7 +34,7 @@ const categories = [
 ];
 
 
-export default function CategoryCards({ onSelect }) {
+export default function CategoryCards() {
     return (
         <div className="container mx-auto px-5 py-20">
             <div className="">
@@ -44,7 +44,6 @@ export default function CategoryCards({ onSelect }) {
                 {categories.map((cat) => (
                     <div
                         key={cat.title}
-                        onClick={() => onSelect?.(cat.title)}
                         className="cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 group"
                     >
                         <div className="relative">
