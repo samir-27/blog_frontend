@@ -7,7 +7,6 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Initialize Toastify
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -21,17 +20,16 @@ const Signup = () => {
       const data = await res.json();
 
       if (res.ok) {
-        // Clear the form fields on success
         setName('');
         setEmail('');
         setPassword('');
-        toast.success('Signup successful!');  // Show success toast
+        toast.success('Signup successful!');
         console.log('Sign up successful!');
       } else {
-        toast.error(data.message || 'Signup failed!');  // Show error toast
+        toast.error(data.message || 'Signup failed!');
       }
     } catch (error) {
-      toast.error('Something went wrong. Please try again later.');  // Show error toast for server errors
+      toast.error('Something went wrong. Please try again later.');
     }
   };
 

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -6,19 +8,26 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:3000/users/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      localStorage.setItem('token', data.token);
-      console.log('Login successful!');
-    } else {
-      console.error('Login failed:', data.message);
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        toast.success("Login successful!");
+        console.log("Login successful!");
+      } else {
+        toast.error(data.message || "Login failed!");
+        console.error("Login failed:", data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again later.");
+      console.error("Error during login:", error);
     }
   };
 

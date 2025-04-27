@@ -1,11 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type BlogFormData = {
   title: string;
-  description: string;
+  content: string;
   image: File | null;
   category: string;
-  tags: string;
 };
 
 const categories = [
@@ -22,10 +23,9 @@ const categories = [
 const CreateBlog = () => {
   const [formData, setFormData] = useState<BlogFormData>({
     title: "",
-    description: "",
+    content: "",
     image: null,
     category: "",
-    tags: "",
   });
 
   const handleChange = (
@@ -39,9 +39,64 @@ const CreateBlog = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Blog submitted:", formData);
+
+    try {
+      let imageUrl = "";
+
+      if (formData.image) {
+        const imageFormData = new FormData();
+        imageFormData.append("file", formData.image);
+        imageFormData.append("upload_preset", "blog-image");
+
+        const cloudinaryRes = await fetch(
+          "https://api.cloudinary.com/v1_1/ddc3h3udr/upload",
+          {
+            method: "POST",
+            body: imageFormData,
+          }
+        );
+
+        const cloudinaryData = await cloudinaryRes.json();
+        imageUrl = cloudinaryData.secure_url;
+      }
+
+      const blogData = {
+        title: formData.title,
+        content: formData.content,
+        category: formData.category,
+        imageUrl,
+      };
+
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:3000/posts/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(blogData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success("Blog created successfully!"); // Success toast
+        setFormData({
+          title: "",
+          content: "",
+          image: null,
+          category: "",
+        }); // Clear form after successful submission
+      } else {
+        toast.error(result.message || "Error creating blog!"); // Error toast
+      }
+    } catch (error) {
+      console.error("Error uploading blog:", error);
+      toast.error("Something went wrong, please try again!"); // General error toast
+    }
   };
 
   return (
@@ -77,19 +132,10 @@ const CreateBlog = () => {
           ))}
         </select>
 
-        <input
-          type="text"
-          name="tags"
-          placeholder="Tags (comma separated)"
-          value={formData.tags}
-          onChange={handleChange}
-          className="w-full p-3 border rounded"
-        />
-
         <textarea
-          name="description"
-          placeholder="Blog Description"
-          value={formData.description}
+          name="content"
+          placeholder="Blog content"
+          value={formData.content}
           onChange={handleChange}
           className="w-full h-40 p-3 border rounded resize-none"
         />
