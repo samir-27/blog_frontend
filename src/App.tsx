@@ -3,7 +3,7 @@ import './App.css';
 import CreateBlog from './components/CreateBlog';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Blogs from './pages/Blogs'; // Make sure these exist
+import Blogs from './pages/Blogs';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import { ToastContainer } from 'react-toastify';
