@@ -57,7 +57,7 @@ const Blogs = () => {
     <div className="container mx-auto p-5">
       <button
         onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-        className="fixed bottom-5 right-5 bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-blue-700 transition"
+        className="fixed bottom-5 right-5 bg-white cursor-pointer text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-blue-700 transition"
       >
         <span className="text-2xl">🔍</span>
       </button>

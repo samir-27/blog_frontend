@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-
+import Avatar from 'react-avatar';
 const BlogCard = ({ blog }) => {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+
+  const userInitials = blog.user?.name.slice(0, 2).toUpperCase();
 
   const handleToggleComments = () => {
     setShowComments((prev) => !prev);
@@ -42,13 +44,19 @@ const BlogCard = ({ blog }) => {
   return (
     <div className="mx-56 p-5">
       <div className="bg-white border rounded-lg">
+        {/* Author Info */}
+        <div className="flex items-center p-4 border-t border-gray-200 gap-2">
+        <Avatar name={userInitials} size="40" round={true} />
+          <p className="text-gray-800 font-semibold">{blog.user?.name}</p>
+        </div>
+
         {/* Image Section */}
         {blog.imageUrl && (
-          <div className="p-4">
+          <div className="pb-4">
             <img
               src={blog.imageUrl}
               alt="Blog"
-              className="w-full mx-auto rounded-lg"
+              className="w-full mx-auto"
             />
           </div>
         )}
@@ -59,17 +67,6 @@ const BlogCard = ({ blog }) => {
           <p className="text-gray-600">{blog.content}</p>
         </div>
 
-        {/* Author Info */}
-        <div className="flex items-center p-4 border-t border-gray-200">
-          {blog.user?.image && (
-            <img
-              src={blog.user.image}
-              alt={blog.user.name}
-              className="w-10 h-10 rounded-full mr-3"
-            />
-          )}
-          <p className="text-gray-800 font-semibold">{blog.user?.name}</p>
-        </div>
 
         {/* Comment Button */}
         <div className="p-4 flex justify-between items-center">

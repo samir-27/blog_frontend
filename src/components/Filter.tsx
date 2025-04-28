@@ -14,7 +14,7 @@ const categories = [
 const Filter = ({ onFilter }: { onFilter: (filters: any) => void }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortByDate, setSortByDate] = useState("desc"); // 'asc' or 'desc'
+  const [sortByDate, setSortByDate] = useState("desc");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -38,8 +38,7 @@ const Filter = ({ onFilter }: { onFilter: (filters: any) => void }) => {
   };
 
   return (
-    <div className="p-6 bg-white shadow rounded-lg">
-      <h2 className="text-xl font-semibold mb-4">Filter Blogs</h2>
+    <div className="">
       <form onSubmit={handleFilterSubmit} className="space-y-4">
         {/* Search by Title */}
         <div>
